@@ -485,8 +485,8 @@ app.get("/api/current-affairs/economic-news", async (req, res) => {
 
 Return strictly a JSON array of objects.`;
 
-        // Multi-model resilience fallback to survive 503 high-demand spikes
-        const candidateModels = ["gemini-2.5-flash", "gemini-3.1-flash-lite", "gemini-3.8-flash"];
+        // Multi-model resilience fallback to survive rate limits or transient spikes
+        const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
         for (const modelName of candidateModels) {
           try {
             const response = await ai.models.generateContent({
@@ -886,99 +886,111 @@ app.post("/api/ai-assistant-stream", async (req, res) => {
   });
 
   if (ai) {
-    // When Deep Research is active, utilize gemini-3.8-flash with Google Search Grounding for real-time NRB Acts, policies, and circulars
-    const candidateModels = isDeepResearch 
-      ? ["gemini-3.8-flash", "gemini-flash-latest"] 
-      : ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+    // Multi-tier model resilience: prioritize high-throughput gemini-3.1-flash-lite to prevent 429 quota exhaustion
+    const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
     const contents = buildGeminiContents(cleanQuery, history, activeAttachment, effectiveImages);
 
     for (const modelName of candidateModels) {
       if (isClientClosed) break;
-      try {
-        const streamConfig: any = {
-          systemInstruction: effectiveSystemInstruction,
-          temperature: isDeepResearch ? 0.25 : 0.3
-        };
+      const toolAttempts = isDeepResearch ? [true, false] : [false];
+      let modelSucceeded = false;
 
-        // Enable Google Search Grounding when Deep Research is activated
-        if (isDeepResearch) {
-          streamConfig.tools = [{ googleSearch: {} }];
-        }
+      for (const withTools of toolAttempts) {
+        if (isClientClosed || modelSucceeded) break;
+        try {
+          const streamConfig: any = {
+            systemInstruction: effectiveSystemInstruction,
+            temperature: isDeepResearch ? 0.25 : 0.3
+          };
 
-        const stream = await ai.models.generateContentStream({
-          model: modelName,
-          contents,
-          config: streamConfig
-        });
+          // Enable Google Search Grounding when Deep Research is activated
+          if (withTools) {
+            streamConfig.tools = [{ googleSearch: {} }];
+          }
 
-        let streamedCount = 0;
-        const groundings: Array<{ title?: string; uri?: string }> = [];
-        const searchedQueries: string[] = [];
+          const stream = await ai.models.generateContentStream({
+            model: modelName,
+            contents,
+            config: streamConfig
+          });
 
-        for await (const chunk of stream) {
-          if (isClientClosed) break;
+          let streamedCount = 0;
+          const groundings: Array<{ title?: string; uri?: string }> = [];
+          const searchedQueries: string[] = [];
 
-          // Robust chunk text extraction (handles both chunk.text and part arrays)
-          let chunkText = chunk.text;
-          if (!chunkText && (chunk as any).candidates?.[0]?.content?.parts) {
-            for (const part of (chunk as any).candidates[0].content.parts) {
-              if (part.text && !part.thought) {
-                chunkText = (chunkText || '') + part.text;
+          for await (const chunk of stream) {
+            if (isClientClosed) break;
+
+            // Robust chunk text extraction (handles both chunk.text and part arrays)
+            let chunkText = chunk.text;
+            if (!chunkText && (chunk as any).candidates?.[0]?.content?.parts) {
+              for (const part of (chunk as any).candidates[0].content.parts) {
+                if (part.text && !part.thought) {
+                  chunkText = (chunkText || '') + part.text;
+                }
+              }
+            }
+
+            // Extract Google Search Grounding metadata if provided by Gemini
+            const candidate = (chunk as any).candidates?.[0];
+            const searchChunks = candidate?.groundingMetadata?.groundingChunks;
+            if (Array.isArray(searchChunks) && searchChunks.length > 0) {
+              for (const sc of searchChunks) {
+                if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
+                  groundings.push({ 
+                    title: sc.web.title || 'Official Source / NRB Policy', 
+                    uri: sc.web.uri 
+                  });
+                }
+              }
+            }
+
+            const webQueries = candidate?.groundingMetadata?.webSearchQueries;
+            if (Array.isArray(webQueries)) {
+              for (const q of webQueries) {
+                if (typeof q === 'string' && !searchedQueries.includes(q)) {
+                  searchedQueries.push(q);
+                }
+              }
+            }
+
+            if (chunkText) {
+              streamedCount++;
+              res.write(`data: ${JSON.stringify({ chunk: chunkText })}\n\n`);
+              if (typeof (res as any).flush === 'function') {
+                (res as any).flush();
               }
             }
           }
 
-          // Extract Google Search Grounding metadata if provided by Gemini
-          const candidate = (chunk as any).candidates?.[0];
-          const searchChunks = candidate?.groundingMetadata?.groundingChunks;
-          if (Array.isArray(searchChunks) && searchChunks.length > 0) {
-            for (const sc of searchChunks) {
-              if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
-                groundings.push({ 
-                  title: sc.web.title || 'Official Source / NRB Policy', 
-                  uri: sc.web.uri 
-                });
-              }
+          // If Google Search citations were extracted, stream them neatly at the end
+          if (groundings.length > 0 && !isClientClosed) {
+            let sourcesMarkdown = `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
+              `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
+              groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
+            if (searchedQueries.length > 0) {
+              sourcesMarkdown += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${searchedQueries.map(q => `\`${q}\``).join(', ')}`;
             }
+            res.write(`data: ${JSON.stringify({ chunk: sourcesMarkdown })}\n\n`);
           }
 
-          const webQueries = candidate?.groundingMetadata?.webSearchQueries;
-          if (Array.isArray(webQueries)) {
-            for (const q of webQueries) {
-              if (typeof q === 'string' && !searchedQueries.includes(q)) {
-                searchedQueries.push(q);
-              }
-            }
+          if (streamedCount > 0 && !isClientClosed) {
+            modelSucceeded = true;
+            res.write(`data: [DONE]\n\n`);
+            return res.end();
           }
-
-          if (chunkText) {
-            streamedCount++;
-            res.write(`data: ${JSON.stringify({ chunk: chunkText })}\n\n`);
-            if (typeof (res as any).flush === 'function') {
-              (res as any).flush();
-            }
+        } catch (geminiErr: any) {
+          const errMsg = geminiErr?.message || String(geminiErr);
+          const isQuotaOr429 = errMsg.includes("429") || errMsg.includes("RESOURCE_EXHAUSTED") || errMsg.includes("quota");
+          if (withTools && isQuotaOr429) {
+            console.log(`[AI Assistant Notice] Model ${modelName} tool rate limit reached, retrying directly...`);
+            continue;
           }
+          console.log(`[AI Assistant Notice] Model ${modelName} status (${isQuotaOr429 ? 429 : 503}), switching model...`);
+          break;
         }
-
-        // If Google Search citations were extracted, stream them neatly at the end
-        if (groundings.length > 0 && !isClientClosed) {
-          let sourcesMarkdown = `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
-            `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
-            groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
-          if (searchedQueries.length > 0) {
-            sourcesMarkdown += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${searchedQueries.map(q => `\`${q}\``).join(', ')}`;
-          }
-          res.write(`data: ${JSON.stringify({ chunk: sourcesMarkdown })}\n\n`);
-        }
-
-        if (streamedCount > 0 && !isClientClosed) {
-          res.write(`data: [DONE]\n\n`);
-          return res.end();
-        }
-      } catch (geminiErr: any) {
-        const statusCode = geminiErr?.status || geminiErr?.code || 503;
-        console.log(`[AI Assistant Notice] Model ${modelName} temporary load status (${statusCode}), trying next model...`);
       }
+      if (modelSucceeded) break;
     }
   }
 
@@ -1068,65 +1080,77 @@ app.post("/api/ai-assistant", async (req, res) => {
     const effectiveSystemInstruction = getAiSystemInstruction(level, effectiveMode, cleanQuery, Boolean(isDeepResearch));
 
     if (ai) {
-      const candidateModels = isDeepResearch 
-        ? ["gemini-3.8-flash", "gemini-flash-latest"] 
-        : ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
       const contents = buildGeminiContents(cleanQuery, history, activeAttachment, effectiveImages);
 
       for (const modelName of candidateModels) {
-        try {
-          const reqConfig: any = {
-            systemInstruction: effectiveSystemInstruction,
-            temperature: isDeepResearch ? 0.25 : 0.3
-          };
+        const toolOptions = isDeepResearch ? [true, false] : [false];
+        let modelSucceeded = false;
 
-          if (isDeepResearch) {
-            reqConfig.tools = [{ googleSearch: {} }];
-          }
+        for (const withTools of toolOptions) {
+          if (modelSucceeded) break;
+          try {
+            const reqConfig: any = {
+              systemInstruction: effectiveSystemInstruction,
+              temperature: isDeepResearch ? 0.25 : 0.3
+            };
 
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents,
-            config: reqConfig,
-          });
-
-          if (response.text && response.text.trim()) {
-            let answer = response.text.trim();
-            // Append Google Search Grounding sources if available
-            const candidate = (response as any).candidates?.[0];
-            const searchChunks = candidate?.groundingMetadata?.groundingChunks;
-            const webQueries = candidate?.groundingMetadata?.webSearchQueries;
-            if (Array.isArray(searchChunks) && searchChunks.length > 0) {
-              const groundings: Array<{ title?: string; uri?: string }> = [];
-              for (const sc of searchChunks) {
-                if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
-                  groundings.push({ 
-                    title: sc.web.title || 'Official Source / NRB Policy', 
-                    uri: sc.web.uri 
-                  });
-                }
-              }
-              if (groundings.length > 0) {
-                answer += `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
-                  `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
-                  groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
-                if (Array.isArray(webQueries) && webQueries.length > 0) {
-                  answer += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${webQueries.map(q => `\`${q}\``).join(', ')}`;
-                }
-              }
+            if (withTools) {
+              reqConfig.tools = [{ googleSearch: {} }];
             }
 
-            return res.json({
-              success: true,
-              source: "gemini",
+            const response = await ai.models.generateContent({
               model: modelName,
-              answer
+              contents,
+              config: reqConfig,
             });
+
+            if (response.text && response.text.trim()) {
+              let answer = response.text.trim();
+              // Append Google Search Grounding sources if available
+              const candidate = (response as any).candidates?.[0];
+              const searchChunks = candidate?.groundingMetadata?.groundingChunks;
+              const webQueries = candidate?.groundingMetadata?.webSearchQueries;
+              if (Array.isArray(searchChunks) && searchChunks.length > 0) {
+                const groundings: Array<{ title?: string; uri?: string }> = [];
+                for (const sc of searchChunks) {
+                  if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
+                    groundings.push({ 
+                      title: sc.web.title || 'Official Source / NRB Policy', 
+                      uri: sc.web.uri 
+                    });
+                  }
+                }
+                if (groundings.length > 0) {
+                  answer += `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
+                    `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
+                    groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
+                  if (Array.isArray(webQueries) && webQueries.length > 0) {
+                    answer += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${webQueries.map(q => `\`${q}\``).join(', ')}`;
+                  }
+                }
+              }
+
+              modelSucceeded = true;
+              return res.json({
+                success: true,
+                source: "gemini",
+                model: modelName,
+                answer
+              });
+            }
+          } catch (geminiErr: any) {
+            const errMsg = geminiErr?.message || String(geminiErr);
+            const isQuotaOr429 = errMsg.includes("429") || errMsg.includes("RESOURCE_EXHAUSTED") || errMsg.includes("quota");
+            if (withTools && isQuotaOr429) {
+              console.log(`[AI Assistant Notice] Model ${modelName} tool rate limit, retrying directly...`);
+              continue;
+            }
+            console.log(`[AI Assistant Notice] Model ${modelName} temporary status (${isQuotaOr429 ? 429 : 503}), switching model...`);
+            break;
           }
-        } catch (geminiErr: any) {
-          const statusCode = geminiErr?.status || geminiErr?.code || 503;
-          console.log(`[AI Assistant Notice] Model ${modelName} temporary load status (${statusCode}), switching to next model...`);
         }
+        if (modelSucceeded) break;
       }
     }
 
@@ -1192,60 +1216,73 @@ app.post("/api/deep-research", async (req, res) => {
         }
       });
 
-      const candidateModels = mode === "deep" 
-        ? ["gemini-3.8-flash", "gemini-flash-latest"] 
-        : ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
       for (const modelName of candidateModels) {
-        try {
-          const reqConfig: any = {
-            systemInstruction,
-            temperature: 0.25,
-          };
-          if (mode === "deep") {
-            reqConfig.tools = [{ googleSearch: {} }];
-          }
+        const toolOptions = mode === "deep" ? [true, false] : [false];
+        let modelSucceeded = false;
 
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents: [{ role: 'user', parts: contentsParts }],
-            config: reqConfig
-          });
-
-          if (response.text && response.text.trim()) {
-            let answer = response.text.trim();
-            const candidate = (response as any).candidates?.[0];
-            const searchChunks = candidate?.groundingMetadata?.groundingChunks;
-            const webQueries = candidate?.groundingMetadata?.webSearchQueries;
-            if (Array.isArray(searchChunks) && searchChunks.length > 0) {
-              const groundings: Array<{ title?: string; uri?: string }> = [];
-              for (const sc of searchChunks) {
-                if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
-                  groundings.push({ 
-                    title: sc.web.title || 'Official Source / NRB Policy', 
-                    uri: sc.web.uri 
-                  });
-                }
-              }
-              if (groundings.length > 0) {
-                answer += `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
-                  `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
-                  groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
-                if (Array.isArray(webQueries) && webQueries.length > 0) {
-                  answer += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${webQueries.map(q => `\`${q}\``).join(', ')}`;
-                }
-              }
+        for (const withTools of toolOptions) {
+          if (modelSucceeded) break;
+          try {
+            const reqConfig: any = {
+              systemInstruction,
+              temperature: 0.25,
+            };
+            if (withTools) {
+              reqConfig.tools = [{ googleSearch: {} }];
             }
 
-            return res.json({
-              success: true,
-              source: "gemini",
+            const response = await ai.models.generateContent({
               model: modelName,
-              answer
+              contents: [{ role: 'user', parts: contentsParts }],
+              config: reqConfig
             });
+
+            if (response.text && response.text.trim()) {
+              let answer = response.text.trim();
+              const candidate = (response as any).candidates?.[0];
+              const searchChunks = candidate?.groundingMetadata?.groundingChunks;
+              const webQueries = candidate?.groundingMetadata?.webSearchQueries;
+              if (Array.isArray(searchChunks) && searchChunks.length > 0) {
+                const groundings: Array<{ title?: string; uri?: string }> = [];
+                for (const sc of searchChunks) {
+                  if (sc.web?.uri && !groundings.some(g => g.uri === sc.web.uri)) {
+                    groundings.push({ 
+                      title: sc.web.title || 'Official Source / NRB Policy', 
+                      uri: sc.web.uri 
+                    });
+                  }
+                }
+                if (groundings.length > 0) {
+                  answer += `\n\n---\n### 🌐 प्रमाणित आधिकारिक स्रोतहरू (Google Search Grounded Citations)\n` +
+                    `*नेपाल राष्ट्र बैंक (NRB), नेपाल कानुन आयोग तथा नीतिगत स्रोतबाट प्रमाणित:*\n` +
+                    groundings.map((g, idx) => `${idx + 1}. [${g.title}](${g.uri})`).join('\n');
+                  if (Array.isArray(webQueries) && webQueries.length > 0) {
+                    answer += `\n\n*गुगल सर्च गरिएका विषयवस्तु:* ${webQueries.map(q => `\`${q}\``).join(', ')}`;
+                  }
+                }
+              }
+
+              modelSucceeded = true;
+              return res.json({
+                success: true,
+                source: "gemini",
+                model: modelName,
+                answer
+              });
+            }
+          } catch (err: any) {
+            const errMsg = err?.message || String(err);
+            const isQuotaOr429 = errMsg.includes("429") || errMsg.includes("RESOURCE_EXHAUSTED") || errMsg.includes("quota");
+            if (withTools && isQuotaOr429) {
+              console.log(`[Deep Research Notice] Model ${modelName} tool rate limit, retrying directly...`);
+              continue;
+            }
+            console.log(`[Deep Research Notice] Model ${modelName} status (${isQuotaOr429 ? 429 : 500}), trying next candidate...`);
+            break;
           }
-        } catch (err: any) {
-          console.warn(`[Deep Research] ${modelName} notice:`, err?.message || err);
         }
+        if (modelSucceeded) break;
       }
     }
 
@@ -1298,8 +1335,14 @@ ${evalData.guidanceTips.map(t => `- ${t}`).join('\n')}`;
       answer: fallbackAnswer
     });
   } catch (err: any) {
-    console.error("Deep Research API error:", err);
-    res.status(500).json({ error: err.message || "Failed to process deep research query" });
+    console.log("Deep Research engine fallback initiated:", err?.message || err);
+    const queryStr = typeof req.body?.query === "string" ? req.body.query : "";
+    const safeFallback = lookupDeepResearchContext(queryStr) || getPedagogicalKnowledgeText(queryStr);
+    return res.json({
+      success: true,
+      source: "offline-engine",
+      answer: safeFallback
+    });
   }
 });
 

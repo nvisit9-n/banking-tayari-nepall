@@ -189,9 +189,7 @@ async function streamDirectFromGemini(
   options: StreamAiOptions
 ): Promise<string> {
   const { query, history = [], attachment, level = 'level4-5', mode = 'general', isDeepResearch, onChunk, signal } = options;
-  const candidateModels = isDeepResearch
-    ? ['gemini-3.8-flash', 'gemini-flash-latest']
-    : ['gemini-3.8-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+  const candidateModels = ['gemini-3.1-flash-lite', 'gemini-3.8-flash', 'gemini-flash-latest'];
 
   const deepResearchInstructions = isDeepResearch ? `\n\n[DEEP RESEARCH & REAL-TIME LEGAL/ACT ANALYSIS (GOOGLE SEARCH GROUNDED)]:
 - तपाईं अहिले नेपाल लोकसेवा, बैंकिङ तथा संस्थान परीक्षाको आधिकारिक 'Deep Research Mode' मा हुनुहुन्छ, जहाँ Google Search Grounding सक्रिय छ।

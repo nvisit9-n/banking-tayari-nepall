@@ -400,7 +400,7 @@ export const DeepResearchEngine: React.FC<DeepResearchEngineProps> = ({
 
       setMessages(prev => [...prev, aiMsg]);
     } catch (err: any) {
-      console.error('Deep Research request failed:', err);
+      console.log('Deep Research fallback activated:', err?.message || err);
       // Fallback message
       const fallbackMsg: DeepResearchMessage = {
         id: `ai-${Date.now()}`,
