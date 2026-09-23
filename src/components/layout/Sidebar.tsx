@@ -333,19 +333,19 @@ export const Sidebar: React.FC = () => {
   ];
 
   const resourceNavItems: { tab: NavigationTab; label: string; icon: React.ComponentType<{ className?: string }>; badge?: string | number; badgeColor?: string }[] = [
-    { tab: 'portal', label: 'एकीकृत पोर्टल (NRB/RBB/NBL)', icon: Landmark, badge: 'LIVE', badgeColor: 'bg-rose-600' },
-    { tab: 'notes-hub', label: 'बैंकिङ्ग नोट्स हब (Notes Hub)', icon: BookOpen, badge: 'NEW', badgeColor: 'bg-amber-500' },
-    { tab: 'flashcards', label: 'स्मार्ट फ्ल्यासकार्ड (Flashcards)', icon: Layers, badge: 'NEW', badgeColor: 'bg-emerald-600' },
-    { tab: 'deep-research', label: 'Deep Research AI (रिसर्च)', icon: Bot, badge: 'PRO', badgeColor: 'bg-emerald-600' },
-    { tab: 'leaderboard', label: 'वरियता (Leaderboard)', icon: Trophy, badge: 'Ranking', badgeColor: 'bg-amber-500' },
-    { tab: 'video-lectures', label: 'भिडियो कक्षाहरू (Videos)', icon: Youtube, badge: 'HD', badgeColor: 'bg-red-600' },
-    { tab: 'free-notes', label: 'अध्ययन / AI नोट्स (Notes)', icon: FileText, badge: 'AI', badgeColor: 'bg-blue-600' },
-    { tab: 'current-affairs', label: 'समसामयिक (Current Affairs)', icon: Newspaper },
-    { tab: 'premium', label: 'प्रिमियम नोट्स (Premium)', icon: Sparkles, badge: 'Pro', badgeColor: 'bg-amber-500' },
+    { tab: 'portal', label: 'एकीकृत पोर्टल (NRB/RBB/NBL)', icon: Landmark, badge: 'LIVE', badgeColor: 'bg-rose-600 text-white' },
+    { tab: 'notes-hub', label: 'बैंकिङ्ग नोट्स हब (Notes Hub)', icon: BookOpen, badge: 'NEW', badgeColor: 'bg-amber-500 text-white' },
+    { tab: 'flashcards', label: 'स्मार्ट फ्ल्यासकार्ड (Flashcards)', icon: Layers, badge: 'NEW', badgeColor: 'bg-emerald-600 text-white' },
+    { tab: 'deep-research', label: 'Deep Research AI (रिसर्च)', icon: Bot, badge: 'PRO', badgeColor: 'bg-indigo-600 text-white' },
+    { tab: 'leaderboard', label: 'वरियता (Leaderboard)', icon: Trophy, badge: 'Ranking', badgeColor: 'bg-amber-500 text-white' },
+    { tab: 'video-lectures', label: 'भिडियो कक्षाहरू (Videos)', icon: Youtube, badge: 'HD', badgeColor: 'bg-red-600 text-white' },
+    { tab: 'free-notes', label: 'अध्ययन / AI नोट्स (Notes)', icon: FileText, badge: 'AI', badgeColor: 'bg-blue-600 text-white' },
+    { tab: 'current-affairs', label: 'समसामयिक (Current Affairs)', icon: Newspaper, badge: 'HOT', badgeColor: 'bg-orange-600 text-white' },
+    { tab: 'premium', label: 'प्रिमियम नोट्स (Premium)', icon: Sparkles, badge: 'PRO', badgeColor: 'bg-amber-500 text-white' },
     { tab: 'purchases', label: 'मेरो खरिद (My Purchases)', icon: ShoppingBag, badge: (purchases || []).length },
     { tab: 'bookmarks', label: 'बुकमार्क (Bookmarks)', icon: Bookmark, badge: (bookmarks || []).length },
     { tab: 'profile', label: 'मेरो प्रोफाइल (Profile)', icon: User },
-    { tab: 'about', label: 'हाम्रो बारेमा (About Us)', icon: Info, badge: 'EdTech', badgeColor: 'bg-blue-600' }
+    { tab: 'about', label: 'हाम्रो बारेमा (About Us)', icon: Info, badge: 'EdTech', badgeColor: 'bg-blue-600 text-white' }
   ];
 
   return (
@@ -368,25 +368,27 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Navigation List with Generous Spacing & Clean Hierarchy */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3.5 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-3 space-y-4 custom-scrollbar">
         
-        {/* Core Nav Group: Home & Notes Hub */}
+        {/* Core Nav Group: Home, Notes Hub, Portal with High Visibility & Bold Contrast */}
         <div className="space-y-1.5">
           <button
             type="button"
             id="sidebar-nav-home"
             onClick={() => setActiveTab('home')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-xs font-bold cursor-pointer ${
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-[13px] cursor-pointer group ${
               activeTab === 'home' 
-                ? 'bg-blue-50 text-blue-900 border border-blue-200 shadow-xs' 
-                : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] font-black shadow-xs' 
+                : 'text-slate-900 font-bold hover:text-[#1E40AF] hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-              <Home className={`w-4 h-4 shrink-0 ${activeTab === 'home' ? 'text-blue-600' : 'text-slate-500'}`} />
+            <div className="flex items-center space-x-3 min-w-0 pr-1">
+              <Home className={`w-5 h-5 shrink-0 transition-colors ${activeTab === 'home' ? 'text-[#1E40AF]' : 'text-slate-600 group-hover:text-[#1E40AF]'}`} />
               <span className="truncate">गृहपृष्ठ (Home Dashboard)</span>
             </div>
-            <span className="text-[10px] font-bold text-slate-400">Live</span>
+            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-100 text-[#1E40AF] border border-blue-200">
+              Live
+            </span>
           </button>
 
           {/* Quick Hub Access */}
@@ -394,17 +396,17 @@ export const Sidebar: React.FC = () => {
             type="button"
             id="sidebar-nav-notes-hub"
             onClick={() => setActiveTab('notes-hub')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-xs font-bold cursor-pointer ${
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-[13px] cursor-pointer group ${
               activeTab === 'notes-hub' 
-                ? 'bg-blue-50 text-blue-900 border border-blue-200 shadow-xs' 
-                : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] font-black shadow-xs' 
+                : 'text-slate-900 font-bold hover:text-[#1E40AF] hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-              <BookOpen className={`w-4 h-4 shrink-0 ${activeTab === 'notes-hub' ? 'text-blue-600' : 'text-slate-500'}`} />
+            <div className="flex items-center space-x-3 min-w-0 pr-1">
+              <BookOpen className={`w-5 h-5 shrink-0 transition-colors ${activeTab === 'notes-hub' ? 'text-[#1E40AF]' : 'text-slate-600 group-hover:text-[#1E40AF]'}`} />
               <span className="truncate">बैंकिङ्ग नोट्स हब (LaTeX + PDF)</span>
             </div>
-            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-300">
+            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500 text-white shadow-2xs">
               NEW
             </span>
           </button>
@@ -414,17 +416,17 @@ export const Sidebar: React.FC = () => {
             type="button"
             id="sidebar-nav-portal"
             onClick={() => setActiveTab('portal')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-xs font-bold cursor-pointer ${
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-[13px] cursor-pointer group ${
               activeTab === 'portal' 
-                ? 'bg-blue-50 text-blue-900 border border-blue-200 shadow-xs' 
-                : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] font-black shadow-xs' 
+                : 'text-slate-900 font-bold hover:text-[#1E40AF] hover:bg-slate-100'
             }`}
           >
-            <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-              <Landmark className={`w-4 h-4 shrink-0 ${activeTab === 'portal' ? 'text-blue-600' : 'text-slate-500'}`} />
+            <div className="flex items-center space-x-3 min-w-0 pr-1">
+              <Landmark className={`w-5 h-5 shrink-0 transition-colors ${activeTab === 'portal' ? 'text-[#1E40AF]' : 'text-slate-600 group-hover:text-[#1E40AF]'}`} />
               <span className="truncate">एकीकृत बैंकिङ पोर्टल</span>
             </div>
-            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 border border-rose-200">
+            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-600 text-white shadow-2xs">
               LIVE
             </span>
           </button>
@@ -433,13 +435,13 @@ export const Sidebar: React.FC = () => {
         {/* ================================================================= */}
         {/* STRICT 4-ITEM NUMBERED SEQUENCE SECTION                           */}
         {/* ================================================================= */}
-        <div className="pt-2.5 border-t border-slate-200">
-          <div className="px-1.5 py-1 flex items-center justify-between mb-2">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+        <div className="pt-3 border-t border-slate-200">
+          <div className="px-2 py-1.5 flex items-center justify-between mb-2">
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <BookOpen className="w-4 h-4 text-[#1E40AF]" />
               <span>तयारी क्रम (१ देखि ४)</span>
             </span>
-            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-100 text-[#1E40AF] border border-blue-200">
               ४ चरण
             </span>
           </div>
@@ -459,18 +461,18 @@ export const Sidebar: React.FC = () => {
                     seq.isPreTestEngine
                       ? 'border-blue-300 bg-blue-50/40 shadow-xs'
                       : isSeqActive
-                        ? 'border-blue-300 bg-blue-50/40 shadow-xs ring-1 ring-blue-400/20'
-                        : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-2xs'
+                        ? 'border-blue-400 bg-blue-50/50 shadow-xs ring-1 ring-blue-400/30'
+                        : 'border-slate-200 bg-white hover:border-blue-300 hover:bg-slate-50/80 shadow-2xs'
                   }`}
                 >
                   {/* Priority Tag for Item 1 */}
                   {seq.priorityBadge && (
-                    <div className="bg-amber-50 px-3 py-1 flex items-center justify-between text-amber-900 border-b border-amber-200">
-                      <span className="text-[9.5px] font-black tracking-wide uppercase flex items-center gap-1.5">
-                        <Flame className="w-3 h-3 text-amber-600 fill-amber-600" />
+                    <div className="bg-amber-100/90 px-3 py-1.5 flex items-center justify-between text-amber-950 border-b border-amber-200">
+                      <span className="text-[10px] font-black tracking-wide uppercase flex items-center gap-1.5">
+                        <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
                         {seq.priorityBadge}
                       </span>
-                      <span className="text-[9px] font-bold bg-blue-600 text-white px-1.5 py-0.2 rounded">
+                      <span className="text-[9.5px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full shadow-2xs">
                         SET 1-50
                       </span>
                     </div>
@@ -479,19 +481,19 @@ export const Sidebar: React.FC = () => {
                   {/* Numbered Category Header Card - Expands/Collapses on title click */}
                   <div
                     onClick={() => toggleSeq(seq.id)}
-                    className="p-3 flex items-center justify-between cursor-pointer select-none group hover:bg-slate-100/60 transition"
+                    className="p-3 flex items-center justify-between cursor-pointer select-none group hover:bg-slate-100/70 transition"
                     title={`${seq.num}. ${seq.titleNe} - ${seq.titleEn}`}
                   >
-                    <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center font-black text-xs shrink-0 bg-slate-100 border border-slate-300 text-slate-800">
+                    <div className="flex items-center space-x-3 min-w-0 pr-1">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 bg-blue-50 border border-blue-200 text-[#1E40AF]">
                         {seq.num}
                       </div>
 
                       <div className="min-w-0 truncate">
-                        <h4 className="font-bold text-xs text-[#0F172A] group-hover:text-blue-700 truncate leading-tight tracking-tight">
+                        <h4 className="font-black text-[13px] text-[#0F172A] group-hover:text-[#1E40AF] truncate leading-tight tracking-tight">
                           {seq.titleNe}
                         </h4>
-                        <p className="text-[10px] text-slate-500 truncate font-semibold">
+                        <p className="text-[11px] text-slate-600 truncate font-semibold mt-0.5">
                           {seq.titleEn}
                         </p>
                       </div>
@@ -501,18 +503,18 @@ export const Sidebar: React.FC = () => {
                       <button
                         type="button"
                         onClick={(e) => toggleSeq(seq.id, e)}
-                        className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition cursor-pointer"
+                        className="p-1 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition cursor-pointer"
                         title={isExpanded ? 'बन्द गर्नुहोस् (Collapse)' : 'हेर्नुहोस् (Expand)'}
                       >
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-blue-600' : 'text-slate-400 group-hover:text-slate-700'}`} />
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#1E40AF]' : 'text-slate-500 group-hover:text-slate-900'}`} />
                       </button>
                     </div>
                   </div>
 
                   {/* Indented Sub-Links with High-Contrast Readable Typography */}
                   {isExpanded && (
-                    <div className="px-3 pb-3 pt-1 border-t border-slate-200 bg-slate-50/80">
-                      <div className="ml-1 pl-2.5 border-l-2 border-blue-400 space-y-1 mt-1.5">
+                    <div className="px-3 pb-3 pt-1 border-t border-slate-200 bg-slate-50/90">
+                      <div className="ml-1 pl-2.5 border-l-2 border-[#1E40AF] space-y-1.5 mt-1.5">
                         {seq.subLinks.map((sub, sIdx) => (
                           <button
                             key={sIdx}
@@ -521,15 +523,15 @@ export const Sidebar: React.FC = () => {
                               e.stopPropagation();
                               sub.onClick();
                             }}
-                            className="w-full text-left py-2 px-2.5 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 transition flex items-center justify-between group cursor-pointer"
+                            className="w-full text-left py-2 px-2.5 rounded-lg text-xs font-bold text-slate-800 hover:text-[#1E40AF] hover:bg-white border border-transparent hover:border-slate-200 transition flex items-center justify-between group cursor-pointer"
                           >
                             <div className="flex items-center gap-2 min-w-0 pr-1 truncate">
-                              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 group-hover:scale-125 transition-transform" />
-                              <span className="truncate text-xs font-semibold text-slate-800 group-hover:text-blue-900">{sub.label}</span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#1E40AF] shrink-0 group-hover:scale-125 transition-transform" />
+                              <span className="truncate text-xs font-bold text-slate-900 group-hover:text-[#1E40AF]">{sub.label}</span>
                             </div>
 
                             {sub.badge && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white text-slate-700 group-hover:bg-blue-100 group-hover:text-blue-900 shrink-0 border border-slate-200">
+                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-white text-slate-800 group-hover:bg-blue-100 group-hover:text-[#1E40AF] shrink-0 border border-slate-300 shadow-2xs">
                                 {sub.badge}
                               </span>
                             )}
@@ -547,10 +549,14 @@ export const Sidebar: React.FC = () => {
         {/* ================================================================= */}
         {/* RESOURCES & SECONDARY SUITE SECTION                               */}
         {/* ================================================================= */}
-        <div className="pt-2.5 border-t border-slate-200">
-          <div className="px-1.5 py-1 mb-1.5">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
-              अध्ययन स्रोत तथा सुविधाहरू
+        <div className="pt-3 border-t border-slate-200">
+          <div className="px-2 py-1.5 mb-1.5 flex items-center justify-between">
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-[#1E40AF]" />
+              <span>अध्ययन स्रोत तथा सुविधाहरू</span>
+            </span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+              १३ मोड्युल
             </span>
           </div>
 
@@ -564,21 +570,25 @@ export const Sidebar: React.FC = () => {
                   key={item.tab}
                   id={`sidebar-resource-${item.tab}`}
                   onClick={() => setActiveTab(item.tab)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all text-xs font-medium cursor-pointer ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-[13px] cursor-pointer group ${
                     isActive 
-                      ? 'bg-blue-50 text-blue-900 border border-blue-200 shadow-xs' 
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] font-black shadow-xs' 
+                      : 'text-slate-900 font-bold hover:bg-slate-100 hover:text-[#1E40AF]'
                   }`}
                 >
-                  <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-                    <Icon className={`w-4 h-4 shrink-0 ${
-                      isActive ? 'text-blue-600' : 'text-slate-500'
+                  <div className="flex items-center space-x-3 min-w-0 pr-1">
+                    <Icon className={`w-5 h-5 shrink-0 transition-colors ${
+                      isActive ? 'text-[#1E40AF]' : 'text-slate-600 group-hover:text-[#1E40AF]'
                     }`} />
-                    <span className="truncate font-semibold" title={item.label}>{item.label}</span>
+                    <span className="truncate" title={item.label}>{item.label}</span>
                   </div>
 
                   {item.badge !== undefined && (
-                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full shadow-2xs tracking-wider uppercase ${
+                      item.badgeColor 
+                        ? item.badgeColor 
+                        : 'bg-slate-100 text-slate-800 border border-slate-300'
+                    }`}>
                       {item.badge}
                     </span>
                   )}
@@ -589,14 +599,14 @@ export const Sidebar: React.FC = () => {
 
           {/* Owner Exclusive Admin Panel Tab */}
           {isOwner && (
-            <div className="mt-3 pt-2.5 border-t border-slate-200">
-              <div className="px-1.5 py-1 flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 flex items-center gap-1">
-                  <Crown className="w-3 h-3 text-amber-600" />
-                  प्रशासक प्यानल (Owner)
+            <div className="mt-4 pt-3 border-t border-slate-200">
+              <div className="px-2 py-1.5 flex items-center justify-between mb-1.5">
+                <span className="text-[11px] font-black uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                  <Crown className="w-4 h-4 text-amber-600" />
+                  <span>प्रशासक प्यानल (OWNER ADMIN)</span>
                 </span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
-                  OWNER
+                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+                  MASTER
                 </span>
               </div>
               <button
@@ -608,18 +618,18 @@ export const Sidebar: React.FC = () => {
                     window.history.pushState({ tab: 'admin' }, '', '/admin');
                   }
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all text-xs font-bold cursor-pointer ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-[13px] font-black cursor-pointer group ${
                   activeTab === 'admin'
-                    ? 'bg-blue-50 text-blue-900 border border-blue-300 shadow-xs'
-                    : 'bg-slate-50 text-slate-800 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                    ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] shadow-xs'
+                    : 'bg-amber-50/50 text-slate-900 hover:text-[#1E40AF] hover:bg-slate-100 border border-amber-200/80'
                 }`}
                 title="Admin Analytics Dashboard"
               >
-                <div className="flex items-center space-x-2.5 min-w-0 pr-1">
-                  <ShieldCheck className={`w-4 h-4 shrink-0 ${activeTab === 'admin' ? 'text-blue-600' : 'text-amber-600'}`} />
+                <div className="flex items-center space-x-3 min-w-0 pr-1">
+                  <ShieldCheck className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-[#1E40AF]' : 'text-amber-600'}`} />
                   <span className="truncate">Admin Panel (एनालिटिक्स)</span>
                 </div>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">
+                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-600 text-white shadow-2xs">
                   Live
                 </span>
               </button>
