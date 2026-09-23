@@ -274,20 +274,20 @@ export const PaidContentLock: React.FC<PaidContentLockProps> = ({
             {/* Account Info Box */}
             <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2.5 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-slate-500 dark:text-slate-400">प्रापक खाता (Account ID):</span>
+                <span className="text-slate-500 dark:text-slate-400">प्रापक मर्चेन्ट आइडी (Merchant ID):</span>
                 <button
                   type="button"
-                  onClick={() => handleCopyPaymentId('9841000000')}
+                  onClick={() => handleCopyPaymentId('epay@bankingtayarinepal')}
                   className="font-mono font-bold text-slate-900 dark:text-white flex items-center gap-1 hover:text-amber-500"
                 >
-                  <span>9841000000</span>
+                  <span>epay@bankingtayarinepal</span>
                   {copiedId ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
               </div>
 
               <div className="flex items-center justify-between">
                 <span className="text-slate-500 dark:text-slate-400">खाताको नाम:</span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">Banking Tayari Nepal</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">Banking Tayari Nepal (Official)</span>
               </div>
 
               <div className="flex items-center justify-between">

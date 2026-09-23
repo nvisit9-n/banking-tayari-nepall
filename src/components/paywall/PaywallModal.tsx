@@ -51,7 +51,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
 
   // Manual payment form states
   const [fullName, setFullName] = useState<string>(user?.displayName || user?.name || '');
-  const [mobileNumber, setMobileNumber] = useState<string>(user?.phone || '');
+  const [studentIdentifier, setStudentIdentifier] = useState<string>(user?.email || '');
   const [transactionId, setTransactionId] = useState<string>('');
   const [screenshotPreview, setScreenshotPreview] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -93,8 +93,8 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
       addToast('कृपया आफ्नो पूरा नाम प्रविष्ट गर्नुहोस्।', 'error');
       return;
     }
-    if (!mobileNumber.trim()) {
-      addToast('कृपया सम्पर्क मोबाइल नम्बर प्रविष्ट गर्नुहोस्।', 'error');
+    if (!studentIdentifier.trim()) {
+      addToast('कृपया आफ्नो इमेल वा परीक्षार्थी आइडी प्रविष्ट गर्नुहोस्।', 'error');
       return;
     }
     if (!transactionId.trim()) {
@@ -106,9 +106,9 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
 
     try {
       PaywallService.submitManualPayment({
-        userEmail: user?.email || `${mobileNumber}@student.np`,
+        userEmail: user?.email || (studentIdentifier.includes('@') ? studentIdentifier : `${studentIdentifier}@student.np`),
         userName: fullName.trim(),
-        userPhone: mobileNumber.trim(),
+        userPhone: '',
         plan: selectedPlan,
         topicId: selectedPlan === 'single' ? targetTopic?.id : undefined,
         topicTitle: selectedPlan === 'single' ? targetTopic?.titleNe : 'Complete 5-Topic Suite Access',
@@ -558,16 +558,16 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
 
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        सम्पर्क नम्बर (Mobile Number) *
+                        परीक्षार्थी इमेल वा आइडी (Email / ID) *
                       </label>
                       <div className="relative">
-                        <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                        <User className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                         <input
-                          type="tel"
+                          type="text"
                           required
-                          value={mobileNumber}
-                          onChange={(e) => setMobileNumber(e.target.value)}
-                          placeholder="९८XXXXXXXX"
+                          value={studentIdentifier}
+                          onChange={(e) => setStudentIdentifier(e.target.value)}
+                          placeholder="परीक्षार्थी इमेल वा प्रयोगकर्ता नाम"
                           className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-slate-300 focus:outline-none focus:border-[#1E40AF]"
                         />
                       </div>

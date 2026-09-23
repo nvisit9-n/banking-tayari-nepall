@@ -288,7 +288,16 @@ html, body {
 .katex .mfrac {
   vertical-align: middle !important;
   display: inline-block !important;
-  margin: 0.35em 0.4em !important;
+  margin: 0.4em 0.45em !important;
+  line-height: 2.2 !important;
+}
+
+.katex .vlist-t {
+  display: inline-table !important;
+  vertical-align: middle !important;
+}
+
+.katex .vlist-r {
   line-height: 2.2 !important;
 }
 
@@ -296,14 +305,14 @@ html, body {
 .katex .mfrac .frac-line {
   border-bottom: 2px solid currentColor !important;
   min-height: 2px !important;
-  margin-top: 8px !important;
-  margin-bottom: 8px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
 }
 
 /* Ensure numerator has bottom margin/padding and denominator has top margin/padding */
 .katex .mfrac > span > span {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
   line-height: 2.2 !important;
 }
 

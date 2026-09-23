@@ -636,16 +636,16 @@ export const Header: React.FC = () => {
                             selectQuizSubCategory('sangathit');
                             setIsMobileDrawerOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between py-2 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
+                          className={`w-full flex items-center justify-between py-2.5 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
                             isActive && quizSubCategory === 'sangathit'
-                              ? 'bg-blue-50 text-blue-900 font-bold border-l-2 border-blue-600'
-                              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium'
+                              ? 'bg-blue-50 text-[#1E40AF] font-black border-l-4 border-[#1E40AF]'
+                              : 'text-slate-800 hover:text-[#1E40AF] hover:bg-slate-50 font-bold'
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <Building2 className="w-3.5 h-3.5 shrink-0 text-blue-600" />
+                            <Building2 className={`w-4 h-4 shrink-0 ${isActive && quizSubCategory === 'sangathit' ? 'text-[#1E40AF]' : 'text-slate-600'}`} />
                             <div className="text-left truncate">
-                              <p className="truncate font-semibold">{tText('१. संगठित संस्था Pre-Test (५० सेट)', '1. Public Enterprises Pre-Test (50 Sets)')}</p>
+                              <p className="truncate">{tText('१. संगठित संस्था Pre-Test (५० सेट)', '1. Public Enterprises Pre-Test (50 Sets)')}</p>
                             </div>
                           </div>
                         </button>
@@ -658,16 +658,16 @@ export const Header: React.FC = () => {
                             selectQuizSubCategory('banking');
                             setIsMobileDrawerOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between py-2 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
+                          className={`w-full flex items-center justify-between py-2.5 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
                             isActive && quizSubCategory === 'banking'
-                              ? 'bg-blue-50 text-blue-900 font-bold border-l-2 border-blue-600'
-                              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium'
+                              ? 'bg-blue-50 text-[#1E40AF] font-black border-l-4 border-[#1E40AF]'
+                              : 'text-slate-800 hover:text-[#1E40AF] hover:bg-slate-50 font-bold'
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <Landmark className="w-3.5 h-3.5 shrink-0 text-blue-600" />
+                            <Landmark className={`w-4 h-4 shrink-0 ${isActive && quizSubCategory === 'banking' ? 'text-[#1E40AF]' : 'text-slate-600'}`} />
                             <div className="text-left truncate">
-                              <p className="truncate font-semibold">{tText('२. बैंकिङ्ग सेवा (NRB, RBB, NBL, ADBL)', '2. Banking Service (NRB, RBB, NBL, ADBL)')}</p>
+                              <p className="truncate">{tText('२. बैंकिङ्ग सेवा (NRB, RBB, NBL, ADBL)', '2. Banking Service (NRB, RBB, NBL, ADBL)')}</p>
                             </div>
                           </div>
                         </button>
@@ -680,16 +680,16 @@ export const Header: React.FC = () => {
                             selectQuizSubCategory('loksewa');
                             setIsMobileDrawerOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between py-2 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
+                          className={`w-full flex items-center justify-between py-2.5 px-3 pl-6 rounded-lg text-xs transition cursor-pointer ${
                             isActive && quizSubCategory === 'loksewa'
-                              ? 'bg-blue-50 text-blue-900 font-bold border-l-2 border-blue-600'
-                              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium'
+                              ? 'bg-blue-50 text-[#1E40AF] font-black border-l-4 border-[#1E40AF]'
+                              : 'text-slate-800 hover:text-[#1E40AF] hover:bg-slate-50 font-bold'
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <Scale className="w-3.5 h-3.5 shrink-0 text-blue-600" />
+                            <Scale className={`w-4 h-4 shrink-0 ${isActive && quizSubCategory === 'loksewa' ? 'text-[#1E40AF]' : 'text-slate-600'}`} />
                             <div className="text-left truncate">
-                              <p className="truncate font-semibold">{tText('३. निजामती/लोकसेवा तयारी', '3. Civil Service / PSC Preparation')}</p>
+                              <p className="truncate">{tText('३. निजामती/लोकसेवा तयारी', '3. Civil Service / PSC Preparation')}</p>
                             </div>
                           </div>
                         </button>
@@ -703,19 +703,19 @@ export const Header: React.FC = () => {
                     key={item.tab}
                     type="button"
                     onClick={() => handleDrawerNavigate(item.tab)}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition cursor-pointer ${
+                    className={`w-full flex items-center justify-between p-3 rounded-xl text-[13px] font-bold transition cursor-pointer group ${
                       isActive 
-                        ? 'bg-blue-50 text-blue-900 border border-blue-200 shadow-xs' 
-                        : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                        ? 'bg-blue-50 text-[#1E40AF] border-l-4 border-[#1E40AF] font-black shadow-xs' 
+                        : 'text-slate-900 hover:text-[#1E40AF] hover:bg-slate-100'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-600' : 'text-slate-500'}`} />
+                      <Icon className={`w-5 h-5 shrink-0 transition-colors ${isActive ? 'text-[#1E40AF]' : 'text-slate-600 group-hover:text-[#1E40AF]'}`} />
                       <span>{item.label}</span>
                     </div>
 
                     {item.badge !== undefined && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-300">
                         {item.badge}
                       </span>
                     )}
