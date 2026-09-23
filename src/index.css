@@ -288,13 +288,23 @@ html, body {
 .katex .mfrac {
   vertical-align: middle !important;
   display: inline-block !important;
-  margin: 0 0.35em !important;
+  margin: 0.35em 0.4em !important;
+  line-height: 2.2 !important;
 }
 
-/* Ensure horizontal fraction bar has solid stroke and clean visibility without displacing KaTeX top coordinates */
+/* Ensure horizontal fraction bar has solid stroke and clean spacing without touching top/bottom text */
 .katex .mfrac .frac-line {
   border-bottom: 2px solid currentColor !important;
   min-height: 2px !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Ensure numerator has bottom margin/padding and denominator has top margin/padding */
+.katex .mfrac > span > span {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  line-height: 2.2 !important;
 }
 
 /* Extra vertical breathing room for text in numerators and denominators (eliminates all descender/ascender overlap) */
@@ -303,6 +313,7 @@ html, body {
   font-family: 'Mukta', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
   letter-spacing: 0.015em !important;
   vertical-align: middle !important;
+  padding: 0 2px !important;
 }
 
 /* General formula container with required min 20px vertical padding and 2.2 line-height */

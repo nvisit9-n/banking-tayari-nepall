@@ -56,34 +56,6 @@ export interface FinancialRatioFormula {
   windowDressingRisks?: RatioWindowDressingRisks;
 }
 
-export interface PracticalNumericalExample {
-  scenarioTitleNe: string;
-  bankNameNe: string;
-  fiscalYearNe: string;
-  givenData: { labelNe: string; valueFormatted: string }[];
-  steps: PracticalCalculationStep[];
-  resultValueLatex: string;
-  interpretationNe: string;
-}
-
-export interface FinancialRatioFormula {
-  id: string;
-  nameNe: string;
-  nameEn: string;
-  category: 'Liquidity' | 'Profitability' | 'Solvency' | 'Activity' | 'MarketValue' | 'Regulatory';
-  formulaLatex: string;
-  numeratorNe: string;
-  denominatorNe: string;
-  multiplier?: string;
-  standardBenchmark: string;
-  significanceNe: string;
-  conceptAndPurposeNe: string;
-  bankingApplicationNe: string;
-  nrbDirectiveNormsNe: string;
-  numericalExample: PracticalNumericalExample;
-  strategicLimitationsNe: string;
-}
-
 export interface ComparisonTableRow {
   parameterNe: string;
   parameterEn: string;

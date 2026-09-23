@@ -513,19 +513,25 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                       <strong className="text-[#0F172A]">Banking Tayari Nepal</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500 font-bold">मोबाइल / ID:</span>
-                      <strong className="text-[#1E40AF] font-mono text-sm">9841234567</strong>
+                      <span className="text-slate-500 font-bold">आधिकारिक भुक्तानी ID:</span>
+                      <strong className="text-[#1E40AF] font-mono text-sm">epay@bankingtayarinepal</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500 font-bold">वैकल्पिक ID:</span>
-                      <strong className="text-slate-800 font-mono">9801234567</strong>
+                      <span className="text-slate-500 font-bold">प्रमाणीकरण कोड:</span>
+                      <strong className="text-slate-800 font-mono">BTN-OFFICIAL-DESK</strong>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500 font-bold">भुक्तानी गर्नुपर्ने रकम:</span>
                       <strong className="text-[#DC2626] font-black text-sm">NPR {planAmount}</strong>
                     </div>
-                    <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-[10.5px] text-amber-900 mt-2">
-                      💡 Remarks मा आफ्नो नाम र <strong>Topic {targetTopic?.topicNumber || 'Full'}</strong> लेख्नुहोस्।
+                    <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-blue-900 mt-2 space-y-1">
+                      <div className="font-bold flex items-center gap-1 text-[#1E40AF]">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#1E40AF]" />
+                        <span>परीक्षण चरण सूचना (Testing Phase):</span>
+                      </div>
+                      <p className="text-slate-600">
+                        सबै ५ वटा विषयका सम्पूर्ण नोट्सहरू पढ्नका लागि पूर्ण रूपमा निःशुल्क खुला गरिएको छ। केवल अफलाइन PDF डाउनलोड र प्रिन्ट फिचरका लागि संस्थागत प्रमाणीकरण आवश्यक हुन्छ।
+                      </p>
                     </div>
                   </div>
                 </div>

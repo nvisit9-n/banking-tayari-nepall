@@ -781,17 +781,17 @@ export const Header: React.FC = () => {
         </div>
       )}
 
-      {/* Mobile Global Search Modal Overlay */}
+      {/* Mobile Global Search Modal Overlay - Clean Light Theme */}
       {isMobileSearchOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0F172A]/95 backdrop-blur-md flex flex-col p-4 animate-fadeIn md:hidden">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800 shrink-0">
+        <div className="fixed inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col p-4 animate-fadeIn md:hidden">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200 shrink-0">
             <div className="flex items-center gap-2">
-              <Scale className="w-5 h-5 text-sky-400" />
-              <h3 className="text-sm font-bold text-white">ऐन, कानुन तथा बैंक नोट्स खोज</h3>
+              <Scale className="w-5 h-5 text-[#1E40AF]" />
+              <h3 className="text-sm font-bold text-[#0F172A]">ऐन, कानुन तथा बैंक नोट्स खोज</h3>
             </div>
             <button
               onClick={() => setIsMobileSearchOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>

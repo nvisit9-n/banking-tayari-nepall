@@ -46,10 +46,10 @@ interface InstitutionMatch {
 
 // Institution badges styling
 const INSTITUTION_STYLE_MAP: Record<'NRB' | 'RBB' | 'ADBL' | 'NBL', { bg: string; text: string; border: string }> = {
-  NRB: { bg: 'bg-red-500/15', text: 'text-red-400', border: 'border-red-500/30' },
-  RBB: { bg: 'bg-blue-500/15', text: 'text-blue-400', border: 'border-blue-500/30' },
-  ADBL: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/30' },
-  NBL: { bg: 'bg-indigo-500/15', text: 'text-indigo-400', border: 'border-indigo-500/30' }
+  NRB: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
+  RBB: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+  ADBL: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
+  NBL: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' }
 };
 
 export interface GlobalHeaderSearchBarProps {
@@ -321,7 +321,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
       {/* Search Input Box */}
       <div className="relative w-full">
         <div className="relative flex items-center">
-          <Search className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none group-focus-within:text-sky-400 transition" />
+          <Search className="absolute left-3.5 w-4 h-4 text-slate-500 pointer-events-none group-focus-within:text-[#1E40AF] transition" />
           
           <input
             ref={inputRef}
@@ -334,7 +334,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             }}
             onFocus={() => setIsOpen(true)}
             placeholder="ऐन, कानुन वा बैंक नोट्स खोज्नुहोस् वा बोल्नुहोस्..."
-            className="w-full pl-10 pr-24 py-2 text-xs sm:text-sm bg-[#1E293B] text-[#FFFFFF] placeholder-slate-400 rounded-xl border border-slate-700/80 hover:border-sky-500/50 focus:border-sky-400 focus:ring-2 focus:ring-sky-500/20 focus:outline-none transition-all"
+            className="w-full pl-10 pr-24 py-2 text-xs sm:text-sm bg-[#F1F5F9] hover:bg-[#F8FAFC] focus:bg-white text-[#334155] placeholder-slate-400 rounded-xl border border-slate-300 hover:border-slate-400 focus:border-[#1E40AF] focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
           />
 
           <div className="absolute right-2 flex items-center gap-1.5">
@@ -345,13 +345,13 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                   setQuery('');
                   inputRef.current?.focus();
                 }}
-                className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-700/70 transition cursor-pointer"
+                className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200/70 transition cursor-pointer"
                 title="हटाउनुहोस् (Clear)"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             ) : (
-              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold bg-[#0F172A] border border-slate-700 rounded text-slate-400 font-mono select-none">
+              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold bg-white border border-slate-300 rounded text-slate-500 font-mono select-none shadow-2xs">
                 ⌘K
               </kbd>
             )}
@@ -361,7 +361,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                 setQuery(text);
                 if (!isOpen) setIsOpen(true);
               }}
-              darkBackground
+              darkBackground={false}
               size="sm"
               tooltipText="आवाजद्वारा खोज्नुहोस् (Voice Search)"
             />
@@ -376,14 +376,14 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
           className={`${
             isMobileModal 
               ? 'relative mt-3 w-full' 
-              : 'absolute top-full left-0 right-0 mt-2 z-50 shadow-2xl rounded-2xl border border-slate-700/90 bg-[#0F172A]'
+              : 'absolute top-full left-0 right-0 mt-2 z-50 shadow-xl rounded-2xl border border-slate-200 bg-white'
           } overflow-hidden max-h-[75vh] flex flex-col`}
           style={{ minWidth: isMobileModal ? '100%' : '560px' }}
         >
           {/* Header Filter Chips Bar */}
-          <div className="p-2.5 border-b border-slate-800 bg-[#1E293B]/70 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1.5 shrink-0 flex items-center gap-1">
-              <Filter className="w-3 h-3 text-sky-400" />
+          <div className="p-2.5 border-b border-slate-200 bg-slate-50 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-1.5 shrink-0 flex items-center gap-1">
+              <Filter className="w-3 h-3 text-[#1E40AF]" />
               फिल्टर:
             </span>
 
@@ -404,8 +404,8 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                   onClick={() => setSelectedFilter(chip.id as SearchCategoryFilter)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition cursor-pointer shrink-0 ${
                     isActive
-                      ? 'bg-sky-500 text-white shadow-xs'
-                      : 'bg-slate-800/90 text-slate-300 hover:text-white hover:bg-slate-700'
+                      ? 'bg-[#1E40AF] text-white shadow-xs'
+                      : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
                   {chip.label}
@@ -415,17 +415,17 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
           </div>
 
           {/* Scrollable Results Body */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-4 divide-y divide-slate-800/60">
+          <div className="flex-1 overflow-y-auto p-3 space-y-4 divide-y divide-slate-100">
             
             {/* Empty State / Trending Suggestions */}
             {!query && selectedFilter === 'all' && (
               <div className="space-y-3 pt-1">
-                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1">
+                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 px-1">
                   <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     लोकप्रिय खोजीहरू (Trending Law & Exam Notes)
                   </span>
-                  <span>क्लिक गर्नुहोस्</span>
+                  <span className="text-slate-400">क्लिक गर्नुहोस्</span>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 px-1">
@@ -443,7 +443,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                       key={tag}
                       type="button"
                       onClick={() => handleQuickTagClick(tag)}
-                      className="px-2.5 py-1 text-xs font-medium rounded-lg bg-[#1E293B] hover:bg-sky-500/20 text-slate-200 hover:text-sky-300 border border-slate-700/80 transition cursor-pointer"
+                      className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-800 border border-slate-200 transition cursor-pointer"
                     >
                       {tag}
                     </button>
@@ -455,11 +455,11 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             {/* Zero Results */}
             {query && totalResults === 0 && (
               <div className="py-8 text-center space-y-2">
-                <Scale className="w-8 h-8 text-slate-500 mx-auto" />
-                <p className="text-sm font-semibold text-white">
+                <Scale className="w-8 h-8 text-slate-400 mx-auto" />
+                <p className="text-sm font-bold text-slate-800">
                   "{query}" सँग मिल्दोजुल्दो कुनै ऐन, कानुन वा नोट्स फेला परेन।
                 </p>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   सुझाव: BAFIA, राष्ट्र बैंक ऐन, मौद्रिक नीति, वा RBB/ADBL जस्ता शब्द टाइप गर्नुहोस्।
                 </p>
               </div>
@@ -469,11 +469,11 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             {matchedLaws.length > 0 && (
               <div className="space-y-2 pt-2">
                 <div className="flex items-center justify-between px-1">
-                  <span className="text-[11px] font-black uppercase text-sky-400 tracking-wider flex items-center gap-1.5">
+                  <span className="text-[11px] font-black uppercase text-blue-700 tracking-wider flex items-center gap-1.5">
                     <Scale className="w-3.5 h-3.5" />
                     ऐन, कानुन तथा नियमहरू ({matchedLaws.length})
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">Bare Act & Sections</span>
+                  <span className="text-[10px] text-slate-500 font-medium">Bare Act & Sections</span>
                 </div>
 
                 <div className="space-y-1.5">
@@ -481,28 +481,28 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                     <div
                       key={law.id}
                       onClick={() => handleSelectLaw(law)}
-                      className="p-2.5 rounded-xl bg-[#1E293B] hover:bg-slate-800/90 border border-slate-700/80 hover:border-sky-500/50 transition cursor-pointer group flex items-start justify-between gap-3"
+                      className="p-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-300 transition cursor-pointer group flex items-start justify-between gap-3 shadow-2xs"
                     >
                       <div className="flex items-start gap-2.5 min-w-0">
-                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center shrink-0 text-sky-400 mt-0.5">
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0 text-blue-700 mt-0.5">
                           <Scale className="w-4 h-4" />
                         </div>
 
                         <div className="min-w-0 space-y-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-xs font-bold text-white group-hover:text-sky-300 transition">
+                            <span className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition">
                               {law.titleNe}
                             </span>
-                            <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-slate-800 text-sky-300 border border-slate-700">
+                            <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-blue-50 text-blue-800 border border-blue-200">
                               {law.shortCode}
                             </span>
                           </div>
 
-                          <p className="text-[11px] text-slate-300 line-clamp-1">
+                          <p className="text-[11px] text-slate-600 line-clamp-1">
                             {law.primaryFocus}
                           </p>
 
-                          <div className="flex items-center gap-2 flex-wrap text-[10px] text-slate-400">
+                          <div className="flex items-center gap-2 flex-wrap text-[10px] text-slate-500">
                             <span>जारी: {law.enactedBikram}</span>
                             <span>•</span>
                             <span>{law.totalChapters} परिच्छेद • {law.totalSections} दफा</span>
@@ -526,7 +526,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                       </div>
 
                       <div className="flex items-center gap-1 shrink-0 self-center">
-                        <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-sky-400 group-hover:translate-x-0.5 transition-transform">
+                        <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-blue-700 group-hover:translate-x-0.5 transition-transform">
                           ऐन पढ्नुहोस्
                           <ChevronRight className="w-3.5 h-3.5" />
                         </span>
@@ -541,11 +541,11 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             {matchedNotes.length > 0 && (
               <div className="space-y-2 pt-3">
                 <div className="flex items-center justify-between px-1">
-                  <span className="text-[11px] font-black uppercase text-emerald-400 tracking-wider flex items-center gap-1.5">
+                  <span className="text-[11px] font-black uppercase text-emerald-700 tracking-wider flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5" />
                     संस्थानगत अध्ययन नोट्स ({matchedNotes.length})
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">Exam-Focused Notes</span>
+                  <span className="text-[10px] text-slate-500 font-medium">Exam-Focused Notes</span>
                 </div>
 
                 <div className="space-y-1.5">
@@ -553,32 +553,32 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                     <div
                       key={note.id}
                       onClick={() => handleSelectNote(note)}
-                      className="p-2.5 rounded-xl bg-[#1E293B] hover:bg-slate-800/90 border border-slate-700/80 hover:border-emerald-500/50 transition cursor-pointer group flex items-start justify-between gap-3"
+                      className="p-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-300 transition cursor-pointer group flex items-start justify-between gap-3 shadow-2xs"
                     >
                       <div className="flex items-start gap-2.5 min-w-0">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0 text-emerald-700 mt-0.5">
                           <BookOpen className="w-4 h-4" />
                         </div>
 
                         <div className="min-w-0 space-y-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h4 className="text-xs font-bold text-white group-hover:text-emerald-300 transition truncate">
+                            <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition truncate">
                               {note.title}
                             </h4>
-                            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-800 text-emerald-300 border border-slate-700">
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
                               {note.subject}
                             </span>
                           </div>
 
                           {note.examTip && (
-                            <p className="text-[11px] text-slate-300 line-clamp-1">
+                            <p className="text-[11px] text-slate-600 line-clamp-1">
                               परीक्षा सुझाव: {note.examTip}
                             </p>
                           )}
 
-                          <div className="flex items-center gap-2 flex-wrap text-[10px] text-slate-400">
+                          <div className="flex items-center gap-2 flex-wrap text-[10px] text-slate-500">
                             <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-slate-500" />
+                              <Clock className="w-3 h-3 text-slate-400" />
                               {note.readTime}
                             </span>
                             <span>•</span>
@@ -601,7 +601,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                       </div>
 
                       <div className="flex items-center gap-1 shrink-0 self-center">
-                        <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 group-hover:translate-x-0.5 transition-transform">
+                        <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 group-hover:translate-x-0.5 transition-transform">
                           नोट पढ्नुहोस्
                           <ChevronRight className="w-3.5 h-3.5" />
                         </span>
@@ -616,11 +616,11 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             {matchedInstitutions.length > 0 && (
               <div className="space-y-2 pt-3">
                 <div className="flex items-center justify-between px-1">
-                  <span className="text-[11px] font-black uppercase text-amber-400 tracking-wider flex items-center gap-1.5">
+                  <span className="text-[11px] font-black uppercase text-amber-700 tracking-wider flex items-center gap-1.5">
                     <Landmark className="w-3.5 h-3.5" />
                     बैंकिङ संस्थान तथा पाठ्यक्रम हब ({matchedInstitutions.length})
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">NRB / RBB / ADBL / NBL</span>
+                  <span className="text-[10px] text-slate-500 font-medium">NRB / RBB / ADBL / NBL</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -628,26 +628,26 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                     <div
                       key={inst.id}
                       onClick={() => handleSelectInstitution(inst)}
-                      className="p-2.5 rounded-xl bg-[#1E293B] hover:bg-slate-800/90 border border-slate-700/80 hover:border-amber-500/50 transition cursor-pointer group space-y-1.5"
+                      className="p-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-amber-300 transition cursor-pointer group space-y-1.5 shadow-2xs"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center font-black text-xs">
+                          <span className="w-6 h-6 rounded-md bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center font-black text-xs">
                             {inst.shortName}
                           </span>
-                          <span className="text-xs font-bold text-white group-hover:text-amber-300 transition">
+                          <span className="text-xs font-bold text-slate-900 group-hover:text-amber-800 transition">
                             {inst.nameNe}
                           </span>
                         </div>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-300 transition" />
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 transition" />
                       </div>
 
-                      <p className="text-[10px] text-slate-300 line-clamp-1">
+                      <p className="text-[10px] text-slate-600 line-clamp-1">
                         तह: {inst.levels}
                       </p>
                       
-                      <div className="text-[9px] font-medium text-emerald-400 flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                      <div className="text-[9px] font-medium text-emerald-700 flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                         {inst.vacancyStatus}
                       </div>
                     </div>
@@ -659,12 +659,12 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
           </div>
 
           {/* Footer Quick Action Bar */}
-          <div className="p-2.5 border-t border-slate-800 bg-[#0F172A] flex items-center justify-between text-[11px] text-slate-400">
+          <div className="p-2.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between text-[11px] text-slate-600">
             <div className="flex items-center gap-3">
-              <span className="font-semibold text-slate-300">
-                कुल परिणाम: <span className="text-sky-400 font-bold">{totalResults}</span>
+              <span className="font-semibold text-slate-700">
+                कुल परिणाम: <span className="text-blue-700 font-bold">{totalResults}</span>
               </span>
-              <span className="hidden sm:inline text-slate-500">•</span>
+              <span className="hidden sm:inline text-slate-400">•</span>
               <span className="hidden sm:inline">समर्थित बैंक: NRB, RBB, ADBL, NBL</span>
             </div>
 
@@ -675,7 +675,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
                   setIsOpen(false);
                   if (onClose) onClose();
                 }}
-                className="px-2.5 py-1 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition cursor-pointer"
+                className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 rounded-lg transition cursor-pointer"
               >
                 बन्द गर्नुहोस् (ESC)
               </button>
