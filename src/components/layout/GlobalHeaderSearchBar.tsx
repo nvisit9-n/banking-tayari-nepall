@@ -321,7 +321,7 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
       {/* Search Input Box */}
       <div className="relative w-full">
         <div className="relative flex items-center">
-          <Search className="absolute left-3.5 w-4 h-4 text-slate-500 pointer-events-none group-focus-within:text-[#1E40AF] transition" />
+          <Search className="absolute left-3.5 w-4 h-4 text-[#0F172A] pointer-events-none group-focus-within:text-[#1E40AF] transition" style={{ color: '#0F172A' }} />
           
           <input
             ref={inputRef}
@@ -334,7 +334,8 @@ export const GlobalHeaderSearchBar: React.FC<GlobalHeaderSearchBarProps> = ({
             }}
             onFocus={() => setIsOpen(true)}
             placeholder="ऐन, कानुन वा बैंक नोट्स खोज्नुहोस् वा बोल्नुहोस्..."
-            className="w-full pl-10 pr-24 py-2 text-xs sm:text-sm bg-[#F1F5F9] hover:bg-[#F8FAFC] focus:bg-white text-[#334155] placeholder-slate-400 rounded-xl border border-slate-300 hover:border-slate-400 focus:border-[#1E40AF] focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+            className="w-full pl-10 pr-24 py-2 text-xs sm:text-sm bg-[#F1F5F9] hover:bg-[#F8FAFC] focus:bg-white text-[#0F172A] placeholder-slate-500 rounded-xl border border-slate-300 hover:border-slate-400 focus:border-[#1E40AF] focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+            style={{ color: '#0F172A' }}
           />
 
           <div className="absolute right-2 flex items-center gap-1.5">

@@ -209,55 +209,106 @@ html, body {
   transition-duration: 200ms;
 }
 
-/* High Contrast Readability Rules for Dark Surfaces */
-.dark body {
-  color: #FFFFFF !important;
+/* ========================================================================= */
+/* CRITICAL MOBILE DASHBOARD & USER HERO CARD HIGH-CONTRAST DARK TEXT RULES   */
+/* Strictly overrides all invisible white text (#ffffff) on light surfaces   */
+/* ========================================================================= */
+.user-profile-hero,
+.user-hero-card,
+.dashboard-card-elevated,
+.card-elevated-white {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+  color: #0F172A !important;
+}
+
+/* Forceful Dark Slate (#0F172A / #1E293B) text on all hero labels, names, emails, stats */
+.user-profile-hero h1,
+.user-profile-hero h2,
+.user-profile-hero h3,
+.user-profile-hero .hero-title,
+.user-hero-card h1,
+.user-hero-card h2,
+.user-hero-card h3 {
+  color: #0F172A !important;
+}
+
+.user-profile-hero .hero-dark-text,
+.user-profile-hero .hero-label,
+.user-profile-hero .hero-stat,
+.user-profile-hero .hero-user-name,
+.user-hero-card .hero-dark-text {
+  color: #0F172A !important;
+}
+
+.user-profile-hero .hero-subtext,
+.user-profile-hero .hero-stat-sub,
+.user-hero-card .hero-subtext {
+  color: #1E293B !important;
+}
+
+/* Secondary input pills behind email, phone, location */
+.user-profile-hero .hero-pill,
+.user-hero-card .hero-pill {
+  background-color: #F1F5F9 !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+.user-profile-hero .hero-pill * {
+  color: #0F172A !important;
+}
+
+/* XP Card Inner Container with explicit borders & elevation */
+.user-profile-hero .hero-xp-card,
+.user-hero-card .hero-xp-card {
+  background-color: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04) !important;
+  color: #0F172A !important;
+}
+
+.user-profile-hero .hero-xp-card .xp-title,
+.user-hero-card .hero-xp-card .xp-title {
+  color: #0F172A !important;
+}
+
+.user-profile-hero .hero-xp-card .xp-sub,
+.user-hero-card .hero-xp-card .xp-sub {
+  color: #1E293B !important;
+}
+
+/* Top Navbar Icons explicit dark slate render */
+.header-nav-icon,
+.nav-icon-dark {
+  color: #0F172A !important;
+  stroke: #0F172A !important;
+}
+
+/* Guarantee light background cards NEVER inherit white text from dark mode */
+.bg-white,
+.bg-white:not(.dark-preserve) *:not(.text-white):not([class*="bg-blue"]):not([class*="bg-red"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-amber"]):not([class*="bg-indigo"]) {
+  /* Keep high contrast on light backgrounds */
+}
+
+/* Scoped dark mode only for elements genuinely styled for dark themes */
+.dark body:not(.theme-light-lock) {
   background-color: #0B1120;
 }
 
-.dark h1,
-.dark h2,
-.dark h3,
-.dark h4,
-.dark h5,
-.dark h6 {
+.dark .dark-surface {
+  background-color: #0F172A;
   color: #FFFFFF;
 }
 
-.dark .text-slate-900 {
+.dark .dark-surface h1,
+.dark .dark-surface h2,
+.dark .dark-surface h3,
+.dark .dark-surface h4,
+.dark .dark-surface h5,
+.dark .dark-surface h6 {
   color: #FFFFFF !important;
-}
-
-.dark .text-slate-800 {
-  color: #F8FAFC !important;
-}
-
-.dark .text-slate-700 {
-  color: #F1F5F9 !important;
-}
-
-.dark .text-slate-600 {
-  color: #E2E8F0 !important;
-}
-
-.dark .text-slate-500 {
-  color: #CBD5E1 !important;
-}
-
-.dark .text-gray-900 {
-  color: #FFFFFF !important;
-}
-
-.dark .text-gray-800 {
-  color: #F8FAFC !important;
-}
-
-.dark .text-gray-700 {
-  color: #F1F5F9 !important;
-}
-
-.dark .text-gray-600 {
-  color: #E2E8F0 !important;
 }
 
 /* ========================================================================= */

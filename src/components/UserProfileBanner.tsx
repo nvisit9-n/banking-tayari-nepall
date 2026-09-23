@@ -138,7 +138,15 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
   };
 
   return (
-    <div className="rounded-3xl bg-white border border-slate-200/90 text-[#0F172A] p-6 sm:p-8 relative overflow-hidden transition-all shadow-md shadow-slate-100 hover:shadow-lg">
+    <div 
+      className="user-profile-hero user-hero-card rounded-3xl bg-white p-6 sm:p-8 relative overflow-hidden transition-all shadow-md"
+      style={{
+        backgroundColor: '#FFFFFF',
+        border: '1px solid #E2E8F0',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+        color: '#0F172A'
+      }}
+    >
       {/* Subtle decorative background glow */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-blue-50/60 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
       <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-amber-50/40 rounded-full blur-2xl pointer-events-none" />
@@ -147,18 +155,27 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5 relative z-10">
         
         {/* Streak Counter Badge */}
-        <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-950 text-[13px] px-3.5 py-1.5 rounded-full font-black border border-amber-300 shadow-2xs">
+        <div 
+          className="inline-flex items-center gap-2 bg-amber-50 text-[#0F172A] text-[13px] px-3.5 py-1.5 rounded-full font-black border border-amber-300 shadow-2xs"
+          style={{ color: '#0F172A' }}
+        >
           <Flame className="w-4 h-4 text-amber-600 fill-amber-600" />
-          <span>{streakDays} दिने निरन्तर अध्ययन Streak</span>
+          <span style={{ color: '#0F172A' }}>{streakDays} दिने निरन्तर अध्ययन Streak</span>
         </div>
 
         {/* Cloud Synced & Exam Module Badge */}
-        <div className="flex items-center gap-2 text-[13px] font-bold text-slate-700">
-          <span className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 text-slate-800 shadow-2xs">
+        <div className="flex items-center gap-2 text-[13px] font-bold text-[#0F172A]">
+          <span 
+            className="flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 text-[#0F172A] shadow-2xs font-bold"
+            style={{ color: '#0F172A', backgroundColor: '#F1F5F9', borderColor: '#E2E8F0' }}
+          >
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>७७ जिल्ला लाइभ सिंक</span>
+            <span style={{ color: '#0F172A' }}>७७ जिल्ला लाइभ सिंक</span>
           </span>
-          <span className="hidden sm:inline bg-white px-2.5 py-1 rounded-full border border-slate-200 text-slate-700 shadow-2xs">
+          <span 
+            className="hidden sm:inline bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200 text-[#0F172A] shadow-2xs font-bold"
+            style={{ color: '#0F172A', backgroundColor: '#F1F5F9', borderColor: '#E2E8F0' }}
+          >
             तह ४ र ५ विशेष
           </span>
         </div>
@@ -194,10 +211,10 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="absolute -bottom-1 -right-1 rounded-full p-2 bg-white border-2 border-slate-200 text-[#1E40AF] shadow-md hover:bg-slate-50 transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="absolute -bottom-1 -right-1 rounded-full p-2 bg-white border-2 border-slate-200 text-[#0F172A] shadow-md hover:bg-slate-100 transition-transform hover:scale-110 active:scale-95 cursor-pointer"
               title="फोटो परिवर्तन गर्नुहोस्"
             >
-              <Camera className="w-3.5 h-3.5" />
+              <Camera className="w-3.5 h-3.5 text-[#0F172A]" />
             </button>
 
             {/* Hidden Photo Upload Input */}
@@ -213,7 +230,10 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
           {/* Student Profile Identity Details */}
           <div className="space-y-2 text-center sm:text-left w-full sm:w-auto">
             <div>
-              <h1 className="text-[24px] sm:text-[28px] font-black text-[#0F172A] tracking-tight leading-tight">
+              <h1 
+                className="text-[24px] sm:text-[28px] font-black tracking-tight leading-tight hero-user-name"
+                style={{ color: '#0F172A' }}
+              >
                 {displayName ? `नमस्ते, ${displayName}! 👋` : 'नमस्ते, परीक्षार्थी! 👋'}
               </h1>
             </div>
@@ -221,36 +241,46 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
             {/* Target Exam, Province & District Badges */}
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
               {isPro ? (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-amber-100 text-amber-950 text-[13px] font-black border border-amber-300 shadow-2xs">
+                <span 
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-amber-100 text-[#0F172A] text-[13px] font-black border border-amber-300 shadow-2xs"
+                  style={{ color: '#0F172A' }}
+                >
                   <Crown className="w-3.5 h-3.5 fill-amber-500 text-amber-600" />
-                  <span>PRO MEMBER</span>
+                  <span style={{ color: '#0F172A' }}>PRO MEMBER</span>
                 </span>
               ) : (
                 <button
                   type="button"
                   onClick={() => setActiveTab('premium')}
                   className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#1E40AF] text-[13px] font-bold border border-blue-200 shadow-2xs transition cursor-pointer"
+                  style={{ color: '#1E40AF' }}
                 >
                   <Sparkles className="w-3 h-3 text-[#1E40AF]" />
                   <span>Unlock PRO</span>
                 </button>
               )}
 
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-50 text-slate-900 text-[13px] font-bold border border-slate-200 shadow-2xs">
+              <span 
+                className="hero-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-[#0F172A] text-[13px] font-bold border border-slate-200 shadow-2xs"
+                style={{ backgroundColor: '#F1F5F9', borderColor: '#E2E8F0', color: '#0F172A' }}
+              >
                 <Building2 className="w-3.5 h-3.5 text-[#1E40AF]" />
-                <span>{targetExam}</span>
+                <span style={{ color: '#0F172A' }}>{targetExam}</span>
               </span>
 
               {user.district && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-50 text-slate-800 text-[13px] font-bold border border-slate-200 shadow-2xs">
+                <span 
+                  className="hero-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-[#0F172A] text-[13px] font-bold border border-slate-200 shadow-2xs"
+                  style={{ backgroundColor: '#F1F5F9', borderColor: '#E2E8F0', color: '#0F172A' }}
+                >
                   <MapPin className="w-3.5 h-3.5 text-rose-600" />
-                  <span>{user.district}</span>
+                  <span style={{ color: '#0F172A' }}>{user.district}</span>
                 </span>
               )}
             </div>
 
-            {/* Contact Information or Guest Login prompt */}
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 text-[13px] text-slate-700 pt-0.5">
+            {/* Contact Information (Email & Phone) as input pills with subtle bg-slate-100 */}
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[13px] pt-1">
               {isGuest ? (
                 <div className="flex items-center gap-2 pt-1">
                   <button
@@ -261,23 +291,32 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
                     <User className="w-3.5 h-3.5" />
                     <span>लगइन गर्नुहोस्</span>
                   </button>
-                  <span className="text-[13px] text-slate-600 hidden sm:inline">
+                  <span 
+                    className="text-[13px] font-bold hidden sm:inline"
+                    style={{ color: '#1E293B' }}
+                  >
                     (स्कोर र प्रगति सुरक्षित गर्न खाता खोल्नुहोस्)
                   </span>
                 </div>
               ) : (
                 <>
                   {userEmail && (
-                    <p className="flex items-center gap-1.5 font-bold text-slate-800">
+                    <div 
+                      className="hero-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-[#0F172A] text-[13px] font-bold shadow-2xs"
+                      style={{ backgroundColor: '#F1F5F9', borderColor: '#E2E8F0', color: '#0F172A' }}
+                    >
                       <Mail className="w-3.5 h-3.5 text-[#1E40AF] shrink-0" />
-                      <span className="truncate max-w-[240px] sm:max-w-none">{userEmail}</span>
-                    </p>
+                      <span className="truncate max-w-[220px] sm:max-w-none" style={{ color: '#0F172A' }}>{userEmail}</span>
+                    </div>
                   )}
                   {user.phone && (
-                    <p className="flex items-center gap-1 font-mono font-bold text-slate-800">
+                    <div 
+                      className="hero-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-[#0F172A] text-[13px] font-mono font-bold shadow-2xs"
+                      style={{ backgroundColor: '#F1F5F9', borderColor: '#E2E8F0', color: '#0F172A' }}
+                    >
                       <Phone className="w-3.5 h-3.5 text-[#1E40AF] shrink-0" />
-                      <span>{user.phone}</span>
-                    </p>
+                      <span style={{ color: '#0F172A' }}>{user.phone}</span>
+                    </div>
                   )}
                 </>
               )}
@@ -285,29 +324,46 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
           </div>
         </div>
 
-        {/* Right: Clean Light XP Bar & Study Streak Card */}
-        <div className="w-full lg:w-72 space-y-3 bg-slate-50/90 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs">
+        {/* Right: Clean Light XP Bar & Study Streak Card with Explicit Borders & Elevation */}
+        <div 
+          className="hero-xp-card w-full lg:w-72 space-y-3 rounded-2xl p-4 sm:p-5"
+          style={{
+            backgroundColor: '#F8FAFC',
+            border: '1px solid #E2E8F0',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
+            color: '#0F172A'
+          }}
+        >
           <div className="flex items-center justify-between text-[13px] font-black">
-            <span className="text-[#0F172A] flex items-center gap-1.5">
+            <span 
+              className="flex items-center gap-1.5 font-black xp-title"
+              style={{ color: '#0F172A' }}
+            >
               <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-              <span>अध्ययन XP: {currentXp}</span>
+              <span style={{ color: '#0F172A' }}>अध्ययन XP: {currentXp}</span>
             </span>
-            <span className="text-slate-600 text-[12px] font-bold">
+            <span 
+              className="text-[12px] font-black xp-sub"
+              style={{ color: '#1E293B' }}
+            >
               Lvl {userLevel + 1} को लागि
             </span>
           </div>
 
           {/* XP Progress Bar */}
-          <div className="w-full h-2.5 bg-slate-200/80 border border-slate-300/60 rounded-full overflow-hidden">
+          <div 
+            className="w-full h-2.5 rounded-full overflow-hidden"
+            style={{ backgroundColor: '#E2E8F0', border: '1px solid #CBD5E1' }}
+          >
             <div 
               className="h-full bg-[#1E40AF] rounded-full transition-all duration-500"
               style={{ width: `${xpProgressPercent}%` }}
             />
           </div>
 
-          <div className="flex items-center justify-between text-[12px] font-bold text-slate-600">
-            <span>प्रगति: {xpProgressPercent}%</span>
-            <span>{nextLevelXp - (currentXp % 500)} XP बाँकी</span>
+          <div className="flex items-center justify-between text-[12px] font-black">
+            <span style={{ color: '#0F172A' }}>प्रगति: {xpProgressPercent}%</span>
+            <span style={{ color: '#1E293B' }}>{nextLevelXp - (currentXp % 500)} XP बाँकी</span>
           </div>
 
           {/* Profile Action Button (Min 44px touch target) */}
@@ -327,11 +383,12 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
               type="button"
               id="dashboard-edit-profile-btn"
               onClick={handleOpenEdit}
-              className="w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 active:scale-[0.99] text-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer border border-slate-200 shadow-2xs"
+              className="w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 active:scale-[0.99] text-[#0F172A] font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer border border-slate-200 shadow-2xs"
+              style={{ color: '#0F172A', borderColor: '#E2E8F0' }}
               title="प्रोफाइल सम्पादन गर्नुहोस् (Edit Profile)"
             >
               <Edit3 className="w-3.5 h-3.5 text-[#1E40AF]" />
-              <span>प्रोफाइल सम्पादन गर्नुहोस्</span>
+              <span style={{ color: '#0F172A' }}>प्रोफाइल सम्पादन गर्नुहोस्</span>
             </button>
           )}
         </div>

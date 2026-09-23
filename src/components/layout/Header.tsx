@@ -249,7 +249,10 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-white text-slate-800 border-b border-slate-200 transition-colors shadow-xs">
+      <header 
+        className="sticky top-0 z-30 bg-white text-[#0F172A] border-b border-slate-200 transition-colors shadow-xs"
+        style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', color: '#0F172A' }}
+      >
         <div className="w-full px-3.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
             
@@ -260,10 +263,11 @@ export const Header: React.FC = () => {
                 type="button"
                 id="mobile-drawer-toggle-btn"
                 onClick={() => setIsMobileDrawerOpen(true)}
-                className="md:hidden min-h-[44px] min-w-[44px] p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl flex items-center justify-center cursor-pointer transition active:scale-95 shrink-0 border border-slate-200"
+                className="md:hidden min-h-[44px] min-w-[44px] p-2 text-[#0F172A] bg-white hover:bg-slate-100 rounded-xl flex items-center justify-center cursor-pointer transition active:scale-95 shrink-0 border border-slate-200 shadow-2xs"
+                style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', color: '#0F172A' }}
                 aria-label="Open Navigation Menu"
               >
-                <Menu className="w-6 h-6 text-slate-700" />
+                <Menu className="w-6 h-6 text-[#0F172A] header-nav-icon" style={{ color: '#0F172A' }} />
               </button>
 
               {/* Mobile Brand Identity */}
@@ -296,9 +300,10 @@ export const Header: React.FC = () => {
               <button
                 onClick={() => setIsMobileSearchOpen(true)}
                 aria-label={tText('खोज्नुहोस्', 'Search')}
-                className="md:hidden min-h-[40px] min-w-[40px] p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl flex items-center justify-center transition active:scale-95 shrink-0 border border-slate-200 cursor-pointer"
+                className="md:hidden min-h-[40px] min-w-[40px] p-2 text-[#0F172A] bg-white hover:bg-slate-100 rounded-xl flex items-center justify-center transition active:scale-95 shrink-0 border border-slate-200 shadow-2xs cursor-pointer"
+                style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', color: '#0F172A' }}
               >
-                <Search className="w-4.5 h-4.5" />
+                <Search className="w-5 h-5 text-[#0F172A] header-nav-icon" style={{ color: '#0F172A' }} />
               </button>
 
               {/* Notes Hub Button - Clean Blue Accent */}
@@ -384,10 +389,11 @@ export const Header: React.FC = () => {
                 id="header-notification-btn"
                 onClick={() => setIsNotificationsOpen(true)}
                 aria-label="Notifications"
-                className="min-h-[40px] min-w-[40px] p-2 relative text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 rounded-xl flex items-center justify-center cursor-pointer transition focus:outline-none active:scale-95 shrink-0"
+                className="min-h-[40px] min-w-[40px] p-2 relative text-[#0F172A] bg-white hover:bg-slate-100 border border-slate-200 rounded-xl flex items-center justify-center cursor-pointer transition focus:outline-none active:scale-95 shrink-0 shadow-2xs"
+                style={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', color: '#0F172A' }}
                 title={`सूचनाहरू (${unreadCount} नपढिएका)`}
               >
-                <Bell className="w-4.5 h-4.5" />
+                <Bell className="w-5 h-5 text-[#0F172A] header-nav-icon" style={{ color: '#0F172A' }} />
                 {unreadCount > 0 && (
                   <span 
                     id="header-notification-badge"
