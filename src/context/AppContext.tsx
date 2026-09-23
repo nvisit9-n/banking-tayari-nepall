@@ -643,16 +643,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialUser?: Us
     addToast('प्रशासक सत्र सुरक्षित रूपमा बन्द भयो (Admin Logged Out)', 'info');
   }, []);
 
-  // Apply theme class and sync to Storage
+  // Apply theme class and sync to Storage (Strictly enforce light color scheme)
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      document.documentElement.style.colorScheme = 'dark';
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.style.colorScheme = 'light';
-    }
-    StorageService.setTheme(theme);
+    document.documentElement.classList.remove('dark');
+    document.documentElement.style.colorScheme = 'light';
+    StorageService.setTheme('light');
   }, [theme]);
 
   // Real-Time Visitor Analytics & Heartbeat

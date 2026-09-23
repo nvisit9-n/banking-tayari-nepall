@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
     <title>Banking Tayari Nepal - Loksewa & Public Enterprises Exam Platform</title>
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -23,18 +25,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous" />
     
-    <!-- Instant blocking theme script to ensure clean light mode default -->
+    <!-- Instant blocking theme script to ensure clean light mode default and disable browser auto-inversion -->
     <script>
       (function() {
         try {
-          var saved = localStorage.getItem('btn_theme_mode_v1') || localStorage.getItem('theme');
-          if (saved === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.documentElement.style.colorScheme = 'dark';
-          } else {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.style.colorScheme = 'light';
-          }
+          document.documentElement.classList.remove('dark');
+          document.documentElement.style.colorScheme = 'light';
         } catch (e) {}
       })();
     </script>

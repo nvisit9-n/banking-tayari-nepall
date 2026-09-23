@@ -355,26 +355,17 @@ export class StorageService {
     }
   }
 
-  // --- Theme preference ---
+  // --- Theme preference (Strictly light to prevent web browser auto-dark inversion) ---
   static getTheme(): 'light' | 'dark' {
-    try {
-      const theme = safeStorage.getItem(STORAGE_KEYS.THEME);
-      if (theme === 'dark' || theme === 'light') return theme;
-    } catch {
-      // ignore
-    }
     return 'light';
   }
 
-  static setTheme(theme: 'light' | 'dark'): void {
+  static setTheme(_theme: 'light' | 'dark'): void {
     try {
-      safeStorage.setItem(STORAGE_KEYS.THEME, theme);
+      safeStorage.setItem(STORAGE_KEYS.THEME, 'light');
       if (typeof document !== 'undefined') {
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        document.documentElement.classList.remove('dark');
+        document.documentElement.style.colorScheme = 'light';
       }
     } catch (e) {
       console.error('Failed to save theme', e);
